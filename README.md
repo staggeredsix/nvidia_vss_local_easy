@@ -15,3 +15,18 @@ Running start_vss.sh will execute each build script, test the endpoints of the L
 The VSS webui will take a little while to start. Be patient.
 The LLama NIM will take a little while to start, docker logs -f the container and watch it come up for happy fun times.
 
+NOTE : You MUST change the which GPU(s) the models run on. The .env file in the VSS github cloned directory must still be changed so your NGC key is availble to VSS itself. You can modify start_vss if you want, I'm too lazy to do this.
+
+To change GPU(s) in the build_* scripts :
+
+export LOCAL_NIM_CACHE=~/.cache/nim
+mkdir -p "$LOCAL_NIM_CACHE"
+docker run -d -it \
+--gpus '"device=0"' \       <----------- change this to whatever you need to. Example - I am running on two 6000 Blackwell Workstation Edition 600w boards. I am running this NIM on GPU 0 and have assigned the other models to GPU 1.
+--shm-size=16GB \
+-e NGC_API_KEY \
+-e NIM_LOW_MEMORY_MODE=1 -e NIM_RELAX_MEM_CONSTRAINTS=1 \
+-v "$LOCAL_NIM_CACHE:/opt/nim/.cache" \
+-u $(id -u) \
+-p 8007:8000 \
+nvcr.io/nim/meta/llama-3.1-8b-instruct:1.8.6
