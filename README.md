@@ -1,4 +1,5 @@
 This is a collection of drop in scripts you can place in /deploy/docker/local_*
+
 They're built so you can run start_vss.sh and immediately deploy the VSS blueprint.
 
 start_vss does a few things :
@@ -15,8 +16,11 @@ start_vss does a few things :
 
 
 Usage - there are build_* scripts that will allow the user to swap models out easily, the first line of each file contains a ngc key variable - you can comment this out and change the docker deployment command to run a different model example : HF/Ollama.
+
 Running start_vss.sh will execute each build script, test the endpoints of the LLM and then bring up VSS.
+
 The VSS webui will take a little while to start. Be patient.
+
 The LLama NIM will take a little while to start, docker logs -f the container and watch it come up for happy fun times.
 
 NOTE : You MUST change the which GPU(s) the models run on. The .env file in the VSS github cloned directory must still be changed so your NGC key is availble to VSS itself. You can modify start_vss if you want, I'm too lazy to do this.
@@ -27,6 +31,7 @@ export LOCAL_NIM_CACHE=~/.cache/nim
 mkdir -p "$LOCAL_NIM_CACHE"
 docker run -d -it \
 --gpus '"device=0"' \       <----------- change this to whatever you need to. Example - I am running on two 6000 Blackwell Workstation Edition 600w boards. I am running this NIM on GPU 0 and have assigned the other models to GPU 1.
+
 --shm-size=16GB \
 -e NGC_API_KEY \
 -e NIM_LOW_MEMORY_MODE=1 -e NIM_RELAX_MEM_CONSTRAINTS=1 \
