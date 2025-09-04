@@ -4,9 +4,13 @@ They're built so you can run start_vss.sh and immediately deploy the VSS bluepri
 start_vss does a few things :
 
 1- It will automagically detect and deploy (or restart) previous VSS containers.
+
 2- It detects when the LLM is running. VSS startup is coded in a way that it will immediately barf and kill itself if it cannot get a response from the LLM. This script tests the LLM endpoint so VSS doesn't freak out.
+
 2- It will cache models so you don't have to redownload them.
+
 3- It makes NGC API key management easier.
+
 4- It makes NVIDIA software easier to use. The way it's meant to be played.
 
 
